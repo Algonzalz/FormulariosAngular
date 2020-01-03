@@ -1,0 +1,134 @@
+<h4>Formularios <small>template</small></h4>
+<hr>
+<form [formGroup]="ownedForm" (ngSubmit)="save()" novalidate="">
+
+  <div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col-8">
+          <input class="form-control"
+                [ngClass]="{'is-invalid': !firstName.valid}"
+                type="text"
+                placeholder="Nombre"
+                formControlName="firstName"
+                [(ngModel)]="userModel.firstName">
+          <div *ngIf="firstName.touched">
+              <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
+              <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
+              <div  *ngIf="firstName.value == 'henry'" >No puede ser henry en el nombre</div>
+          </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellido</label>
+      <div class="col-8">
+          <input class="form-control"
+                type="text"
+                placeholder="Apellido"
+                formControlName="lastName"
+                [(ngModel)]="userModel.lastName">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col-md-8">
+        <input class="form-control"
+              type="email"
+              placeholder="Correo electrónico"
+              formControlName="email"
+              [(ngModel)]="userModel.email">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Password</label>
+    <div class="col-md-8">
+        <input class="form-control"
+                type="password"
+                placeholder="Password"
+                formControlName="password"
+                [(ngModel)]="userModel.password">
+    </div>
+</div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Repeat Password</label>
+    <div class="col-md-8">
+        <input class="form-control"
+                type="password"
+                placeholder="Password"
+                formControlName="repeatPassword"
+                [(ngModel)]="userModel.repeatPassword">
+    </div>
+</div>
+
+<!-- SELECT DE EXERIMENTO -->
+<div class="form-group row">
+  <label class="col-2 col-form-label">Country</label>
+  <div class="col-md-8">
+      <select [(ngModel)]="userModel.country" formControlName="country" (change)="loadStates($event.target.value)">
+          <option value=null disabled selected hidden>Country</option>
+          <option [value]="p" *ngFor="let p of paises">{{p}} </option>
+      </select>
+  </div>
+</div>
+<!-- SELECT 2 A PARTIR DE EL OTRO -->
+<div class="form-group row">
+  <label class="col-2 col-form-label">States</label>
+  <div class="col-md-8">
+    <select [(ngModel)]="userModel.state" formControlName="state">
+      <option value=null disabled selected hidden>State</option>
+      <option [value]="e" *ngFor="let e of estadosCargados">{{e}}</option>
+    </select>
+  </div>
+</div>
+<!-- FIN DE LOS SELECT -->
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" 
+              class="btn btn-outline-primary"
+              [disabled]="ownedForm.invalid">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+  {{ownedForm.valid}}<br>
+  {{ownedForm.status}}<br>
+  {{ userModel | json }}}}
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" 
+              class="btn btn-outline-primary"
+              (click)="open(content)">
+              Launch demo modal
+      </button>
+    </div>
+  </div>
+</form>
+
+
+
+<ng-template #content >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   <label>Hola Como estas {{name}}</label>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modalClose()">Save</button>
+  </div>
+</ng-template>
