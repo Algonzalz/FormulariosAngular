@@ -76,6 +76,17 @@ export class OwnedPageComponent implements OnInit {
       this.estadosCargados = this.estadosEspaña;
     }
   }
+  // open() {
+  //   const modalRef = this.modalService.open(UniversalModalComponent);
+  //   modalRef.componentInstance.name = 'Alonzito';
+  // }
+
+  open(content) {
+    this.modalService.open(content);
+  }
+  modalClose() {
+    this.modalService.dismissAll();
+  }
   // notNameHenry( control: AbstractControl): { [s: string]: boolean } {
   //   if (control.value === 'henry') {
   //     return {
@@ -101,15 +112,4 @@ export class OwnedPageComponent implements OnInit {
   //   };
   // }
 
-  // open() {
-  //   const modalRef = this.modalService.open(UniversalModalComponent);
-  //   modalRef.componentInstance.name = 'Alonzito';
-  // }
-
-  open(content) {
-    this.modalService.open(content);
-  }
-  modalClose() {
-    this.modalService.dismissAll();
-  }
 }
