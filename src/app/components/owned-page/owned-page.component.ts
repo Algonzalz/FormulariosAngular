@@ -51,14 +51,20 @@ export class OwnedPageComponent implements OnInit {
                                             Validators.required,
                                             match('password')
                                           ]),
-      country: new FormControl('', Validators.required),
-      state: new FormControl('', Validators.required)
+      country: new FormControl(''),
+      state: new FormControl('')
     });
   }
 
   get firstName() {return this.ownedForm.get('firstName'); }
+  get lastName() {return this.ownedForm.get('lastName'); }
+  get email() {return this.ownedForm.get('email'); }
+  get password() {return this.ownedForm.get('password'); }
+  get repeatPassword() {return this.ownedForm.get('repeatPassword'); }
+  get country() {return this.ownedForm.get('country'); }
+  get state() {return this.ownedForm.get('state'); }
   ngOnInit() {
-    this.open(this.content);
+    // this.open(this.content);
   }
 
   save() {
@@ -66,14 +72,22 @@ export class OwnedPageComponent implements OnInit {
     console.log(this.ownedForm);
     this.ownedForm.reset(this.userEmpty);
   }
-  loadStates(name: any) {
-    this.userModel.state = null;
-    if (name === 'Venezuela') {
-      this.estadosCargados = this.estadosVenezuela;
-    } else if (name === 'Estados Unidos') {
-      this.estadosCargados = this.estadosEstadosUnidos;
-    } else if (name === 'España') {
-      this.estadosCargados = this.estadosEspaña;
+  loadStates(name: string) {
+    if (name === 'Venezuela' || name === 'Estados Unidos' || name === 'España') {
+      this.state.setValidators([Validators.required]);
+      this.state.updateValueAndValidity();
+      this.userModel.state = null;
+      if (name === 'Venezuela') {
+        this.estadosCargados = this.estadosVenezuela;
+      } else if (name === 'Estados Unidos') {
+        this.estadosCargados = this.estadosEstadosUnidos;
+      } else if (name === 'España') {
+        this.estadosCargados = this.estadosEspaña;
+      }
+    } else {
+      this.userModel.state = null;
+      this.estadosCargados = null;
+      this.state.clearValidators();
     }
   }
   // open() {
@@ -87,29 +101,4 @@ export class OwnedPageComponent implements OnInit {
   modalClose() {
     this.modalService.dismissAll();
   }
-  // notNameHenry( control: AbstractControl): { [s: string]: boolean } {
-  //   if (control.value === 'henry') {
-  //     return {
-  //       noHenry: true
-  //     };
-  //   }
-  //   return null;
-  // }
-
-
-  // match(controlKey: string) {
-  //   return (control: AbstractControl): { [s: string]: boolean } => {
-  //     // control.parent es el FormGroup
-  //     if (control.parent) { // en las primeras llamadas control.parent es undefined
-  //       const checkValue = control.parent.controls[controlKey].value;
-  //       if (control.value !== checkValue) {
-  //         return {
-  //           match: true
-  //         };
-  //       }
-  //     }
-  //     return null;
-  //   };
-  // }
-
 }

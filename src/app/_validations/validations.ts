@@ -4,7 +4,7 @@ import { AbstractControl } from '@angular/forms';
 export function notNameHenry( control: AbstractControl): { [s: string]: boolean } {
     if (control.value === 'henry') {
       return {
-        noHenry: true
+        notNameHenry: true
       };
     }
     return null;

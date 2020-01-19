@@ -16,7 +16,7 @@
           <div *ngIf="firstName.touched">
               <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
               <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
-              <div  *ngIf="firstName.value == 'henry'" >No puede ser henry en el nombre</div>
+              <div  *ngIf="firstName.hasError('notNameHenry')" >No puede ser henry en el nombre</div>
           </div>
       </div>
     </div>
@@ -64,6 +64,10 @@
                 placeholder="Password"
                 formControlName="repeatPassword"
                 [(ngModel)]="userModel.repeatPassword">
+        <div *ngIf="repeatPassword.touched">
+            <div  *ngIf="repeatPassword.errors?.required" >El Nombre es requerido</div>
+            <div  *ngIf="repeatPassword.hasError('match')" >Deben coincidir as password</div>
+        </div>
     </div>
 </div>
 
@@ -72,7 +76,7 @@
   <label class="col-2 col-form-label">Country</label>
   <div class="col-md-8">
       <select [(ngModel)]="userModel.country" formControlName="country" (change)="loadStates($event.target.value)">
-          <option value=null disabled selected hidden>Country</option>
+          <option value=null  selected>Country</option>
           <option [value]="p" *ngFor="let p of paises">{{p}} </option>
       </select>
   </div>
