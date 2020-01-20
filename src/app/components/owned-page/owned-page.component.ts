@@ -19,7 +19,8 @@ export class OwnedPageComponent implements OnInit {
     password: '',
     repeatPassword: '',
     country: null,
-    state: null
+    state: null,
+    photo: null
   };
   userEmpty: Object = {
     firstName: '',
@@ -37,6 +38,7 @@ export class OwnedPageComponent implements OnInit {
   estadosEspaña: string[] = ['Guijon', 'Madrid', 'Barcelona'];
   estadosCargados: any;
   name: any = 'henry';
+  base64textString = [];
   constructor(private modalService: NgbModal) {
     this.ownedForm = new FormGroup({
       firstName: new FormControl('', [
@@ -52,7 +54,8 @@ export class OwnedPageComponent implements OnInit {
                                             match('password')
                                           ]),
       country: new FormControl(''),
-      state: new FormControl('')
+      state: new FormControl(''),
+      photo: new FormControl('')
     });
   }
 
@@ -63,6 +66,7 @@ export class OwnedPageComponent implements OnInit {
   get repeatPassword() {return this.ownedForm.get('repeatPassword'); }
   get country() {return this.ownedForm.get('country'); }
   get state() {return this.ownedForm.get('state'); }
+  get photo() {return this.ownedForm.get('photo'); }
   ngOnInit() {
     // this.open(this.content);
   }
@@ -94,6 +98,43 @@ export class OwnedPageComponent implements OnInit {
   //   const modalRef = this.modalService.open(UniversalModalComponent);
   //   modalRef.componentInstance.name = 'Alonzito';
   // }
+  // changeListener(e: any): void {
+  //     console.log(e.target);
+  //     this.readThis(e.target);
+  // }
+
+  // readThis(inputValue: any): void {
+  //   var file: File = inputValue.files[0];
+  //   var myReader: FileReader = new FileReader();
+
+  //   myReader.onloadend = (e) => {
+  //     this.userModel.photo = myReader.result;
+  //     console.log(myReader.result);
+  //   };
+  //   myReader.readAsDataURL(file);
+
+  // }
+
+  onUploadChange(evt: any) {
+    const file = evt.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = this.handleReaderLoaded.bind(this);
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  handleReaderLoaded(e) {
+    this.base64textString.push('data:image/png;base64,' + btoa(e.target.result));
+    this.userModel.photo = btoa(e.target.result);
+    console.log(btoa(e.target.result));
+
+  }
+
+
+
 
   open(content) {
     this.modalService.open(content);

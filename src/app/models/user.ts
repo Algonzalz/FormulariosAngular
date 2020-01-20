@@ -6,4 +6,5 @@ export interface User {
     repeatPassword: string;
     country: string;
     state: string;
+    photo: any;
 }

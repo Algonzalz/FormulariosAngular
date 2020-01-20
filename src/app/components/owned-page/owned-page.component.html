@@ -92,6 +92,19 @@
   </div>
 </div>
 <!-- FIN DE LOS SELECT -->
+<!-- INPUT DE SUBIDA -->
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Photo</label>
+    <div class="col-md-8">
+      <input class="form-control"
+                type="file"
+                formControlName="photo"
+                (change)="onUploadChange($event)">
+    </div>
+  </div>
+
+  <img *ngFor="let item of base64textString"  src={{item}} alt="" id="img">
+  <!-- FIN DEL INPUT DE SUBIDA -->
 
 
   <div class="form-group row">
