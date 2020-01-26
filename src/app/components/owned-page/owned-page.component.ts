@@ -132,14 +132,14 @@ export class OwnedPageComponent implements OnInit {
     console.log(btoa(e.target.result));
 
   }
-
-
-
-
   open(content) {
     this.modalService.open(content);
   }
   modalClose() {
     this.modalService.dismissAll();
+  }
+  // Validar en tiempo real que se cumpla la validacion de password coincidan
+  checkConfirmPassword() {
+    this.repeatPassword.updateValueAndValidity();
   }
 }

@@ -52,6 +52,7 @@
                 type="password"
                 placeholder="Password"
                 formControlName="password"
+                (input)="checkConfirmPassword()"
                 [(ngModel)]="userModel.password">
     </div>
 </div>
