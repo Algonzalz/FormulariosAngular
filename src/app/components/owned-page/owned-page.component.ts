@@ -138,8 +138,25 @@ export class OwnedPageComponent implements OnInit {
   modalClose() {
     this.modalService.dismissAll();
   }
-  // Validar en tiempo real que se cumpla la validacion de password coincidan
+  // 
+  /* Henry Gonz[a]lez
+    Validar en tiempo real que se cumpla 
+    la validacion de password coincidan
+  */
   checkConfirmPassword() {
-    this.repeatPassword.updateValueAndValidity();
+    if (!(this.userModel.repeatPassword === '')) {
+      this.repeatPassword.updateValueAndValidity();
+    }
+  }
+// validar que no se pueda escribir numeros en input con keydown
+  validateNumber(event) {
+    const keyCode = event.keyCode;
+
+    const excludedKeys = [8, 37, 39, 46];
+
+    if (!((keyCode >= 48 && keyCode <= 57) ||
+      (excludedKeys.includes(keyCode)))) {
+      event.preventDefault();
+    }
   }
 }
