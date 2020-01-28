@@ -133,7 +133,7 @@ export class OwnedPageComponent implements OnInit {
 
   }
   open(content) {
-    this.modalService.open(content);
+    this.modalService.open(content, { size: 'xl' , scrollable: true, centered: true });
   }
   modalClose() {
     this.modalService.dismissAll();
