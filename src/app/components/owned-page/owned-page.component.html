@@ -12,10 +12,13 @@
                 type="text"
                 placeholder="Nombre"
                 formControlName="firstName"
+                (keypress)="validatedUsername($event)"
+                maxlength="15"
                 [(ngModel)]="userModel.firstName">
-          <div *ngIf="firstName.touched">
+          <div *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
               <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
               <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
+              <div  *ngIf="firstName.errors?.pattern" >El patron no coincide</div>
               <div  *ngIf="firstName.hasError('notNameHenry')" >No puede ser henry en el nombre</div>
           </div>
       </div>
@@ -25,10 +28,17 @@
       <label class="col-2 col-form-label">Apellido</label>
       <div class="col-8">
           <input class="form-control"
+                [ngClass]="{'is-invalid': !lastName.valid}"
                 type="text"
                 placeholder="Apellido"
                 formControlName="lastName"
+                maxlength="50"
+                (keypress)="validatedFullName($event)"
                 [(ngModel)]="userModel.lastName">
+          <div *ngIf="lastName.invalid && (lastName.touched || lastName.dirty)">
+            <div *ngIf="lastName.errors?.required">El Apellido es requerido</div>
+            <div *ngIf="lastName.errors?.pattern">El patron no coincide</div>
+          </div>
       </div>
     </div>
 

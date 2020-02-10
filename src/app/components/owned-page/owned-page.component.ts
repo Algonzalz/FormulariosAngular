@@ -1,10 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
-import { notNameHenry, match } from 'src/app/_validations/validations';
+import { notNameHenry, match } from 'src/app/commons/validations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UniversalModalComponent } from 'src/app/modal/universal-modal/universal-modal.component';
-
+import { Constant } from 'src/app/commons/constant';
+import { PatternService } from 'src/app/service/pattern.service';
 @Component({
   selector: 'app-owned-page',
   templateUrl: './owned-page.component.html',
@@ -22,6 +22,7 @@ export class OwnedPageComponent implements OnInit {
     state: null,
     photo: null
   };
+  // tslint:disable-next-line: ban-types
   userEmpty: Object = {
     firstName: '',
     lastName: '',
@@ -39,14 +40,24 @@ export class OwnedPageComponent implements OnInit {
   estadosCargados: any;
   name: any = 'henry';
   base64textString = [];
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal,
+              private _patternService: PatternService) {}
+
+  ngOnInit() {
+    this.createFormOwned();
+  }
+  createFormOwned() {
     this.ownedForm = new FormGroup({
-      firstName: new FormControl('', [
+      firstName: new FormControl('', { validators: [
                                         Validators.required,
-                                        Validators.minLength(4),
+                                        Validators.minLength(6),
+                                        Validators.pattern(Constant.Pattern.Form.Username),
                                         notNameHenry
-                                     ]),
-      lastName: new FormControl('', Validators.required),
+                                     ], updateOn: 'blur'}),
+      lastName: new FormControl('', { validators: [
+                                      Validators.required,
+                                      Validators.pattern(Constant.Pattern.Form.Name)
+                                    ], updateOn: 'blur' }),
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       repeatPassword: new FormControl('', [
@@ -58,7 +69,6 @@ export class OwnedPageComponent implements OnInit {
       photo: new FormControl('')
     });
   }
-
   get firstName() {return this.ownedForm.get('firstName'); }
   get lastName() {return this.ownedForm.get('lastName'); }
   get email() {return this.ownedForm.get('email'); }
@@ -67,9 +77,6 @@ export class OwnedPageComponent implements OnInit {
   get country() {return this.ownedForm.get('country'); }
   get state() {return this.ownedForm.get('state'); }
   get photo() {return this.ownedForm.get('photo'); }
-  ngOnInit() {
-    // this.open(this.content);
-  }
 
   save() {
     console.log(this.ownedForm.value);
@@ -138,9 +145,9 @@ export class OwnedPageComponent implements OnInit {
   modalClose() {
     this.modalService.dismissAll();
   }
-  // 
+  //
   /* Henry Gonz[a]lez
-    Validar en tiempo real que se cumpla 
+    Validar en tiempo real que se cumpla
     la validacion de password coincidan
   */
   checkConfirmPassword() {
@@ -149,14 +156,27 @@ export class OwnedPageComponent implements OnInit {
     }
   }
 // validar que no se pueda escribir numeros en input con keydown
-  validateNumber(event) {
-    const keyCode = event.keyCode;
+  // validateUser(event): void {
+  //   const keyCode = event.keyCode;
+  //   console.log(event.keyCode);
+  //   const excludedKeys = [8, 39, 46, 95, 45, 46];
 
-    const excludedKeys = [8, 37, 39, 46];
+  //   if (!((keyCode >= 65 && keyCode <= 90) ||
+  //     (keyCode >= 97 && keyCode <= 122) ||
+  //     (keyCode >= 48 && keyCode <= 57) ||
+  //     (excludedKeys.includes(keyCode)))) {
+  //     event.preventDefault();
+  //   }
+  // }
 
-    if (!((keyCode >= 48 && keyCode <= 57) ||
-      (excludedKeys.includes(keyCode)))) {
-      event.preventDefault();
-    }
+
+  validatedUsername(event): void {
+    this._patternService.validateUser(event);
+  }
+  validatedFullName(event): void {
+    this._patternService.validateFullName(event);
+  }
+  validatedEmail(event): void {
+    this._patternService.validateUser(event);
   }
 }
