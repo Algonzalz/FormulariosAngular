@@ -4,7 +4,11 @@ export interface User {
     email: string;
     password: string;
     repeatPassword: string;
-    country: string;
-    state: string;
+    country: {
+        idCountry: any
+    };
+    state: {
+        idState: any
+    };
     photo: any;
 }

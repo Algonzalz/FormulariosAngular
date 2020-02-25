@@ -86,9 +86,11 @@
 <div class="form-group row">
   <label class="col-2 col-form-label">Country</label>
   <div class="col-md-8">
-      <select [(ngModel)]="userModel.country" formControlName="country" (change)="loadStates($event.target.value)">
-          <option value=null  selected>Country</option>
-          <option [value]="p" *ngFor="let p of paises">{{p}} </option>
+      <select [(ngModel)]="userModel.country.idCountry" 
+              formControlName="country" 
+              (change)="loadStates2($event.target.value)">
+          <!-- <option value=null  selected>Country</option> -->
+          <option [value]="c.idCountry" *ngFor="let c of countrys">{{ c.nameCountry }} </option>
       </select>
   </div>
 </div>
@@ -96,9 +98,10 @@
 <div class="form-group row">
   <label class="col-2 col-form-label">States</label>
   <div class="col-md-8">
-    <select [(ngModel)]="userModel.state" formControlName="state">
-      <option value=null disabled selected hidden>State</option>
-      <option [value]="e" *ngFor="let e of estadosCargados">{{e}}</option>
+    <select [(ngModel)]="userModel.state.idState" 
+            formControlName="state">
+      <!-- <option value=null disabled selected hidden>State</option> -->
+      <option [value]="e.idState" *ngFor="let e of estadosCargados">{{e.nameState}}</option>
     </select>
   </div>
 </div>

@@ -5,6 +5,8 @@ import { notNameHenry, match } from 'src/app/commons/validations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Constant } from 'src/app/commons/constant';
 import { PatternService } from 'src/app/service/pattern.service';
+import { AuthService } from 'src/app/service/auth.service';
+import { isNumber } from 'util';
 @Component({
   selector: 'app-owned-page',
   templateUrl: './owned-page.component.html',
@@ -13,25 +15,92 @@ import { PatternService } from 'src/app/service/pattern.service';
 export class OwnedPageComponent implements OnInit {
 @ViewChild('content', { static : true}) content: ElementRef;
   userModel: User = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
-    country: null,
-    state: null,
-    photo: null
+    'firstName': '',
+    'lastName': '',
+    'email': '',
+    'password': '',
+    'repeatPassword': '',
+    'country': {
+      'idCountry': 1
+    },
+    'state': {
+      'idState': 2
+    },
+    'photo': null
   };
   // tslint:disable-next-line: ban-types
   userEmpty: Object = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
-    country: null,
-    state: null
+    'firstName': '',
+    'lastName': '',
+    'email': '',
+    'password': '',
+    'repeatPassword': '',
+    'country': {
+      'idCountry': null
+    },
+    'state': {
+      'idState': null
+    },
+    'photo': null
   };
+
+  countrys = [
+    {
+      idCountry: 1,
+      nameCountry: 'Venezuela'
+    },
+    {
+      idCountry: 2,
+      nameCountry: 'United States'
+    },
+    {
+      idCountry: 3,
+      nameCountry: 'Spain'
+    }
+  ];
+  stateVenezuela = [
+    {
+      idState: 1,
+      nameState: 'Caracas'
+    },
+    {
+      idState: 2,
+      nameState: 'Vargas'
+    },
+    {
+      idState: 3,
+      nameState: 'Nueva Esparta'
+    }
+  ];
+  stateUnitedEstates = [
+    {
+      idState: 1,
+      nameState: 'Las Vegas'
+    },
+    {
+      idState: 2,
+      nameState: 'New York'
+    },
+    {
+      idState: 3,
+      nameState: 'Texas'
+    }
+  ];
+  stateSpain = [
+    {
+      idState: 1,
+      nameState: 'Gujon'
+    },
+    {
+      idState: 2,
+      nameState: 'Madrid'
+    },
+    {
+      idState: 3,
+      nameState: 'Barcelona'
+    }
+  ];
+
   ownedForm: FormGroup;
   paises: string[] = ['Venezuela', 'Estados Unidos', 'España'];
   estadosVenezuela: string[] = ['Caracas', 'Vargas', 'Nueva Esparta'];
@@ -41,10 +110,12 @@ export class OwnedPageComponent implements OnInit {
   name: any = 'henry';
   base64textString = [];
   constructor(private modalService: NgbModal,
-              private _patternService: PatternService) {}
+              private _patternService: PatternService,
+              private _servicio: AuthService ) {}
 
   ngOnInit() {
     this.createFormOwned();
+    this.loadStates2(this.userModel.country.idCountry);
   }
   createFormOwned() {
     this.ownedForm = new FormGroup({
@@ -79,24 +150,48 @@ export class OwnedPageComponent implements OnInit {
   get photo() {return this.ownedForm.get('photo'); }
 
   save() {
-    console.log(this.ownedForm.value);
-    console.log(this.ownedForm);
+    this._servicio.sendData(this.userModel);
+    this._servicio.sendData(this.userModel);
+    // console.log(this.ownedForm.value);
+    // console.log(this.ownedForm);
+    console.log(this.userModel);
     this.ownedForm.reset(this.userEmpty);
   }
-  loadStates(name: string) {
-    if (name === 'Venezuela' || name === 'Estados Unidos' || name === 'España') {
+  // loadStates(name: string) {
+  //   if (name === 'Venezuela' || name === 'Estados Unidos' || name === 'España') {
+  //     this.state.setValidators([Validators.required]);
+  //     this.state.updateValueAndValidity();
+  //     this.userModel.state = null;
+  //     if (name === 'Venezuela') {
+  //       this.estadosCargados = this.estadosVenezuela;
+  //     } else if (name === 'Estados Unidos') {
+  //       this.estadosCargados = this.estadosEstadosUnidos;
+  //     } else if (name === 'España') {
+  //       this.estadosCargados = this.estadosEspaña;
+  //     }
+  //   } else {
+  //     this.userModel.state = null;
+  //     this.estadosCargados = null;
+  //     this.state.clearValidators();
+  //   }
+  // }
+  loadStates2(name: any) {
+    if (name == 1 || name == 2 || name == 3) {
       this.state.setValidators([Validators.required]);
       this.state.updateValueAndValidity();
-      this.userModel.state = null;
-      if (name === 'Venezuela') {
-        this.estadosCargados = this.estadosVenezuela;
-      } else if (name === 'Estados Unidos') {
-        this.estadosCargados = this.estadosEstadosUnidos;
-      } else if (name === 'España') {
-        this.estadosCargados = this.estadosEspaña;
+      // Valido que el country y el estado ya tengan un id asignado.
+      if (!isNumber(this.userModel.country.idCountry)) {
+        this.userModel.state.idState = null;
+      }
+      if (name == 1) {
+        this.estadosCargados = this.stateVenezuela;
+      } else if (name == 2) {
+        this.estadosCargados = this.stateUnitedEstates;
+      } else if (name == 3) {
+        this.estadosCargados = this.stateSpain;
       }
     } else {
-      this.userModel.state = null;
+      // this.userModel.state = null;
       this.estadosCargados = null;
       this.state.clearValidators();
     }
