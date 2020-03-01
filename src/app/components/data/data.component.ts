@@ -55,11 +55,11 @@ export class DataComponent{
 
     // this.forma.reset(this.usuari);
   }
-  agreagrPasatiempos() {
-    (<FormArray>this.forma.controls['pasatiempos']).push(
-      new FormControl('',Validators.required)
-    )
-  }
+  // agreagrPasatiempos() {
+  //   (<FormArray>this.forma.controls['pasatiempos']).push(
+  //     new FormControl('',Validators.required)
+  //   )
+  // }
 
   noHenry( control: FormControl ): { [s: string]: boolean } {
 

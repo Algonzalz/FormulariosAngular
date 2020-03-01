@@ -1,0 +1,21 @@
+<mat-form-field>
+    <input [formControl]="search" matInput placeholder="Busqueda">
+</mat-form-field>
+
+
+
+<ul>
+    <li *ngFor="let user of usuarios | filter: filtroValor"> {{user.name}}</li>
+</ul>
+
+
+
+
+
+
+
+<button type="button" 
+              class="btn btn-outline-primary"
+              routerLink="/owned">
+        back
+      </button>
