@@ -13,7 +13,6 @@
                 placeholder="Nombre"
                 formControlName="firstName"
                 (keypress)="validatedUsername($event)"
-                maxlength="15"
                 [(ngModel)]="userModel.firstName">
           <div *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
               <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
@@ -33,11 +32,13 @@
                 placeholder="Apellido"
                 formControlName="lastName"
                 maxlength="50"
-                (keypress)="validatedFullName($event)"
+                (keypress)="validatedFullName($event); 
+                            validatedLenght($event.target.value, 5)"
                 [(ngModel)]="userModel.lastName">
           <div *ngIf="lastName.invalid && (lastName.touched || lastName.dirty)">
             <div *ngIf="lastName.errors?.required">El Apellido es requerido</div>
             <div *ngIf="lastName.errors?.pattern">El patron no coincide</div>
+            <div *ngIf="lastName.errors?.maxlength">Longitud sobrepasada</div>
           </div>
       </div>
     </div>

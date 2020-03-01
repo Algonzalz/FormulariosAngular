@@ -7,6 +7,7 @@ import { Constant } from 'src/app/commons/constant';
 import { PatternService } from 'src/app/service/pattern.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { isNumber } from 'util';
+import { stringify } from 'querystring';
 @Component({
   selector: 'app-owned-page',
   templateUrl: './owned-page.component.html',
@@ -127,8 +128,9 @@ export class OwnedPageComponent implements OnInit {
                                      ], updateOn: 'blur'}),
       lastName: new FormControl('', { validators: [
                                       Validators.required,
-                                      Validators.pattern(Constant.Pattern.Form.Name)
-                                    ], updateOn: 'blur' }),
+                                      Validators.pattern(Constant.Pattern.Form.Name),
+                                      Validators.maxLength(5)
+                                    ], updateOn: 'blur'}),
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       repeatPassword: new FormControl('', [
@@ -271,7 +273,16 @@ export class OwnedPageComponent implements OnInit {
   validatedFullName(event): void {
     this._patternService.validateFullName(event);
   }
-  validatedEmail(event): void {
+  validatedEmail(event: string): void {
     this._patternService.validateUser(event);
+  }
+
+  // validar la longitud de un campo en typescript
+  validatedLenght(event: string, number: number) {
+    const value = number - 1;
+    console.log(String(event).length);
+    if (String(event).length > value) {
+      return false;
+    }
   }
 }
