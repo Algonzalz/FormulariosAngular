@@ -16,6 +16,7 @@ import {MatInputModule} from '@angular/material/input';
 
 import {HttpClientModule} from '@angular/common/http';
 import { FilterPipe } from './pipes/filter.pipe';
+import { FormModalComponent } from './components/form-modal/form-modal.component';
 
 
 
@@ -25,7 +26,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     DataComponent,
     OwnedPageComponent,
     SearchComponent,
-    FilterPipe
+    FilterPipe,
+    FormModalComponent
   ],
   imports: [
     BrowserModule,

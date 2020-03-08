@@ -1,0 +1,179 @@
+<h4>Formularios <small>template</small></h4>
+<hr>
+<form [formGroup]="forma" (ngSubmit)="onSubmit()" novalidate="">
+
+    <div>
+
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Nombre</label>
+        <div class="col-8">
+            <input class="form-control"
+                  formControlName='firstName'
+                  [ngClass]="{'is-invalid': !firstName.valid}"
+                  type="text"
+                  placeholder="Nombre">
+            <!-- <div *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
+                <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
+                <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
+                <div  *ngIf="firstName.errors?.pattern" >El patron no coincide</div>
+                <div  *ngIf="firstName.hasError('notNameHenry')" >No puede ser henry en el nombre</div>
+            </div> -->
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-2 col-form-label">Apellido</label>
+        <div class="col-8">
+            <input class="form-control"
+                  formControlName='lastName'
+                  [ngClass]="{'is-invalid': !lastName.valid}"
+                  type="text"
+                  placeholder="Apellido">
+            <!-- <div *ngIf="lastName.invalid && (lastName.touched || lastName.dirty)">
+              <div *ngIf="lastName.errors?.required">El Apellido es requerido</div>
+              <div *ngIf="lastName.errors?.pattern">El patron no coincide</div>
+              <div *ngIf="lastName.errors?.maxlength">Longitud sobrepasada</div>
+            </div> -->
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Correo</label>
+      <div class="col-md-8">
+          <input class="form-control"
+                  formControlName="email"
+                  type="email"
+                  placeholder="Correo electrónico">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Password</label>
+      <div class="col-md-8">
+          <input  class="form-control"
+                  formControlName="password"
+                  type="password"
+                  placeholder="Password">
+      </div>
+  </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Repeat Password</label>
+      <div class="col-md-8">
+          <input class="form-control"
+                  formControlName="confirmPassword"
+                  type="password"
+                  placeholder="Password">
+          <!-- <div *ngIf="repeatPassword.touched">
+              <div  *ngIf="repeatPassword.errors?.required" >El Nombre es requerido</div>
+              <div  *ngIf="repeatPassword.hasError('match')" >Deben coincidir as password</div>
+          </div> -->
+      </div>
+  </div>
+
+  <!-- SELECT DE EXERIMENTO -->
+  <div class="form-group row" formGroupName="country">
+    <label class="col-2 col-form-label">Country</label>
+    <div class="col-md-8">
+        <select  
+                formControlName="idCountry" 
+                >
+            <!-- <option value=null  selected>Country</option> -->
+            <!-- <option [value]="c.idCountry" *ngFor="let c of countrys">{{ c.nameCountry }} </option> -->
+        </select>
+    </div>
+  </div>
+  <!-- SELECT 2 A PARTIR DE EL OTRO -->
+  <div class="form-group row" formGroupName="state">
+    <label class="col-2 col-form-label">States</label>
+    <div class="col-md-8">
+      <select  formControlName="idState">
+        <!-- <option value=null disabled selected hidden>State</option> -->
+        <!-- <option [value]="e.idState" *ngFor="let e of estadosCargados">{{e.nameState}}</option> -->
+      </select>
+    </div>
+  </div>
+  <!-- FIN DE LOS SELECT -->
+    <div class="form-group row">
+      <label class="col-2 col-form-label">&nbsp;</label>
+      <div class="input-group col-md-8">
+        <button type="submit" 
+                class="btn btn-outline-primary"
+                [disabled]="forma.invalid">
+          Guardar
+        </button>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">&nbsp;</label>
+      <div class="input-group col-md-8">
+        <button type="button" 
+                class="btn btn-outline-primary"
+                routerLink="/search">
+          search
+        </button>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">&nbsp;</label>
+      <div class="input-group col-md-8">
+        <button type="submit" 
+                class="btn btn-outline-primary"
+                (click)="open(content)">
+                Launch demo modal
+        </button>
+      </div>
+    </div>
+</form>
+
+
+
+<ng-template #content >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modalClose()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="fomrasita" (ngSubmit)="onSubmit2()">
+    <div class="modal-body">
+          <div>
+            <div class="form-group row">
+              <label class="col-2 col-form-label">Nombre</label>
+              <div class="col-8">
+                  <input class="form-control"
+                        formControlName='nombre'
+                        type="text"
+                        placeholder="Nombre">
+                  <div *ngIf="nombre.invalid && (nombre.touched || nombre.dirty)">
+                      <div  *ngIf="nombre.errors?.required" >El Nombre es requerido</div>
+                      <!-- <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
+                      <div  *ngIf="firstName.errors?.pattern" >El patron no coincide</div>
+                      <div  *ngIf="firstName.hasError('notNameHenry')" >No puede ser henry en el nombre</div> -->
+                  </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-2 col-form-label">Apellido</label>
+              <div class="col-8">
+                  <input class="form-control"
+                        formControlName='apellido'
+                        type="text"
+                        placeholder="Apellido">
+                  <div *ngIf="apellido.invalid && (apellido.touched || apellido.dirty)">
+                    <div *ngIf="apellido.errors?.required">El Apellido es requerido</div>
+                    <!-- <div *ngIf="lastName.errors?.pattern">El patron no coincide</div>
+                    <div *ngIf="lastName.errors?.maxlength">Longitud sobrepasada</div> -->
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-dark">Save</button>
+            <button type="cancel" class="btn btn-outline-dark" (click)="modalClose()">cancel</button>
+          </div>
+      </form>
+</ng-template>
