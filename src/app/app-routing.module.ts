@@ -6,10 +6,10 @@ import { FormModalComponent } from './components/form-modal/form-modal.component
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/form', pathMatch: 'full'},
+  {path: '', redirectTo: '/owned', pathMatch: 'full'},
   {path: 'search', component: SearchComponent},
 
-  {path: '**', component: FormModalComponent}
+  {path: '**', component: OwnedPageComponent}
 ];
 
 @NgModule({

@@ -7,19 +7,19 @@
     <div class="form-group row">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
-          <input class="form-control"
+        <input class="form-control"
                 [ngClass]="{'is-invalid': !firstName.valid}"
                 type="text"
                 placeholder="Nombre"
                 formControlName="firstName"
                 (keypress)="validatedUsername($event)"
                 [(ngModel)]="userModel.firstName">
-          <div *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
-              <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
-              <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
-              <div  *ngIf="firstName.errors?.pattern" >El patron no coincide</div>
-              <div  *ngIf="firstName.hasError('notNameHenry')" >No puede ser henry en el nombre</div>
-          </div>
+        <div *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
+            <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
+            <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
+            <div  *ngIf="firstName.errors?.pattern" >El patron no coincide</div>
+            <div  *ngIf="firstName.hasError('notNameHenry')" >No puede ser henry en el nombre</div>
+        </div>
       </div>
     </div>
 
@@ -107,8 +107,37 @@
   </div>
 </div>
 <!-- FIN DE LOS SELECT -->
+<!-- SELECT 2 A PARTIR DE EL OTRO -->
+<!-- <div class="form-group row">
+  <label class="col-2 col-form-label">Time</label>
+  <div class="col-md-8">
+    <ngb-timepicker formControlName="time"
+                    [(ngModel)]="userModel.time"
+                    [meridian]="meridian"
+                    [minuteStep]="minuteStep"></ngb-timepicker>
+    <div *ngIf="time.invalid">
+        <div  *ngIf="time.errors?.required" >El la hora es requerido</div>
+    </div>
+  </div>
+</div> -->
+<!-- FIN DE LOS SELECT -->
+<!-- SELECT 2 A PARTIR DE EL OTRO -->
+<div class="form-group row">
+  <label class="col-2 col-form-label">Time</label>
+  <div class="col-md-8">
+        <ejs-timepicker formControlName="time"
+                        placeholder='Select a time' 
+                        (change)="formatTime($event.text)"
+                        [step]="interval">
+        </ejs-timepicker>
+        <div *ngIf="time.invalid && (time.touched || time.dirty)">
+            <div  *ngIf="time.errors?.required" >El la hora es requerido</div>
+        </div>
+    </div>
+</div>
+<!-- FIN DE LOS SELECT -->
 <!-- INPUT DE SUBIDA -->
-  <div class="form-group row">
+  <!-- <div class="form-group row">
     <label class="col-2 col-form-label">Photo</label>
     <div class="col-md-8">
       <input class="form-control"
@@ -118,7 +147,7 @@
     </div>
   </div>
 
-  <img *ngFor="let item of base64textString"  src={{item}} alt="" id="img">
+  <img *ngFor="let item of base64textString"  src={{item}} alt="" id="img"> -->
   <!-- FIN DEL INPUT DE SUBIDA -->
 <!--  -->
 <!--  -->
@@ -161,26 +190,26 @@
 
 
 <ng-template #content >
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modalClose()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-   <p>Hola Como estas {{name}}</p>
-  </div>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalClose()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    <p>Hola Como estas {{name}}</p>
+    </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modalClose()">Save</button>
   </div>

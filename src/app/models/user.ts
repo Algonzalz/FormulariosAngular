@@ -1,3 +1,5 @@
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+
 export interface User {
     firstName: string;
     lastName: string;
@@ -11,4 +13,5 @@ export interface User {
         idState: any
     };
     photo: any;
+    time: any;
 }

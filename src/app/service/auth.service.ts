@@ -30,7 +30,8 @@ export class AuthService {
         'repeatPassword': model.repeatPassword,
         'country': countryAux,
         'state': stateAux,
-        'photo': model.photo
+        'photo': model.photo,
+        'time': model.time
       };
       console.log('MODELO ENVIADO');
       console.log(modelito);

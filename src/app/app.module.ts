@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { DataComponent } from './components/data/data.component';
 import { OwnedPageComponent } from './components/owned-page/owned-page.component';
 // libreria ng-bootstrap de angular bootstrap
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbTimepicker} from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './components/search/search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Angular MATERIAL
@@ -17,6 +17,8 @@ import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http';
 import { FilterPipe } from './pipes/filter.pipe';
 import { FormModalComponent } from './components/form-modal/form-modal.component';
+// Ej2
+import { TimePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 
 
@@ -38,7 +40,8 @@ import { FormModalComponent } from './components/form-modal/form-modal.component
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    TimePickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

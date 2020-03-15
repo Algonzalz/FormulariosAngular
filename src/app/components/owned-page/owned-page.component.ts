@@ -2,12 +2,15 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { notNameHenry, match } from 'src/app/commons/validations';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Constant } from 'src/app/commons/constant';
 import { PatternService } from 'src/app/service/pattern.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { isNumber } from 'util';
-import { stringify } from 'querystring';
+
+import { enableRipple } from '@syncfusion/ej2-base';
+
+enableRipple(true);
 @Component({
   selector: 'app-owned-page',
   templateUrl: './owned-page.component.html',
@@ -27,7 +30,8 @@ export class OwnedPageComponent implements OnInit {
     'state': {
       'idState': 2
     },
-    'photo': null
+    'photo': null,
+    'time': null
   };
   // tslint:disable-next-line: ban-types
   userEmpty: Object = {
@@ -102,14 +106,20 @@ export class OwnedPageComponent implements OnInit {
     }
   ];
 
+  
   ownedForm: FormGroup;
   paises: string[] = ['Venezuela', 'Estados Unidos', 'España'];
   estadosVenezuela: string[] = ['Caracas', 'Vargas', 'Nueva Esparta'];
   estadosEstadosUnidos: string[] = ['Las Vegas', 'New York', 'Texas'];
   estadosEspaña: string[] = ['Guijon', 'Madrid', 'Barcelona'];
   estadosCargados: any;
+
   name: any = 'henry';
   base64textString = [];
+
+  meridian = true;
+  minuteStep = 15;
+  interval = 15;
   constructor(private modalService: NgbModal,
               private _patternService: PatternService,
               private _servicio: AuthService ) {}
@@ -139,7 +149,8 @@ export class OwnedPageComponent implements OnInit {
                                           ]),
       country: new FormControl(''),
       state: new FormControl(''),
-      photo: new FormControl('')
+      photo: new FormControl(''),
+      time: new FormControl('', { validators: [Validators.required] })
     });
   }
   get firstName() {return this.ownedForm.get('firstName'); }
@@ -150,6 +161,7 @@ export class OwnedPageComponent implements OnInit {
   get country() {return this.ownedForm.get('country'); }
   get state() {return this.ownedForm.get('state'); }
   get photo() {return this.ownedForm.get('photo'); }
+  get time() {return this.ownedForm.get('time'); }
 
   save() {
     this._servicio.sendData(this.userModel);
@@ -197,6 +209,11 @@ export class OwnedPageComponent implements OnInit {
       this.estadosCargados = null;
       this.state.clearValidators();
     }
+  }
+  formatTime(value: any) {
+    console.log(value);
+    this.userModel.time = value;
+    console.log(this.userModel);
   }
   // open() {
   //   const modalRef = this.modalService.open(UniversalModalComponent);
