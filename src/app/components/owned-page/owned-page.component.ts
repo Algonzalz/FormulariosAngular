@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { notNameHenry, match } from 'src/app/commons/validations';
 import { NgbModal, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -122,35 +122,46 @@ export class OwnedPageComponent implements OnInit {
   interval = 15;
   constructor(private modalService: NgbModal,
               private _patternService: PatternService,
-              private _servicio: AuthService ) {}
+              private _servicio: AuthService,
+              private fb: FormBuilder) {}
 
   ngOnInit() {
     this.createFormOwned();
     this.loadStates2(this.userModel.country.idCountry);
   }
   createFormOwned() {
-    this.ownedForm = new FormGroup({
-      firstName: new FormControl('', { validators: [
-                                        Validators.required,
-                                        Validators.minLength(6),
-                                        Validators.pattern(Constant.Pattern.Form.Username),
-                                        notNameHenry
-                                     ], updateOn: 'blur'}),
-      lastName: new FormControl('', { validators: [
-                                      Validators.required,
-                                      Validators.pattern(Constant.Pattern.Form.Name),
-                                      Validators.maxLength(5)
-                                    ], updateOn: 'blur'}),
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-      repeatPassword: new FormControl('', [
-                                            Validators.required,
-                                            match('password')
-                                          ]),
-      country: new FormControl(''),
-      state: new FormControl(''),
-      photo: new FormControl(''),
-      time: new FormControl('', { validators: [Validators.required] })
+    this.ownedForm = this.fb.group({
+      firstName: [null, { validators: [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.pattern(Constant.Pattern.Form.Username),
+            notNameHenry
+            ], updateOn: 'blur'}],
+      lastName: [null, { validators: [
+            Validators.required,
+            Validators.pattern(Constant.Pattern.Form.Name),
+            Validators.maxLength(5)
+            ], updateOn: 'blur'}],
+      email: [null, Validators.required],
+      password: [null, Validators.required],
+      repeatPassword: ['', [
+            Validators.required,
+            match('password')
+            ]],
+      country: this.fb.group({
+            idCountry: [null, {  validators: [
+              Validators.required
+            ]}],
+      }),
+      state: this.fb.group({
+            idState: [null, { validators: [
+                Validators.required
+            ]}]
+      }),
+      photo: [null],
+      time: [null, { validators: [
+          Validators.required
+        ]}]
     });
   }
   get firstName() {return this.ownedForm.get('firstName'); }
@@ -158,17 +169,18 @@ export class OwnedPageComponent implements OnInit {
   get email() {return this.ownedForm.get('email'); }
   get password() {return this.ownedForm.get('password'); }
   get repeatPassword() {return this.ownedForm.get('repeatPassword'); }
-  get country() {return this.ownedForm.get('country'); }
-  get state() {return this.ownedForm.get('state'); }
+  get country() {return this.ownedForm.get('country.idCountry'); }
+  get state() {return this.ownedForm.get('state.idState'); }
   get photo() {return this.ownedForm.get('photo'); }
   get time() {return this.ownedForm.get('time'); }
 
   save() {
-    this._servicio.sendData(this.userModel);
-    this._servicio.sendData(this.userModel);
+    // this._servicio.sendData(this.userModel);
+    // this._servicio.sendData(this.userModel);
     // console.log(this.ownedForm.value);
     // console.log(this.ownedForm);
-    console.log(this.userModel);
+    // console.log(this.userModel);
+    console.log(this.ownedForm.value);
     this.ownedForm.reset(this.userEmpty);
   }
   // loadStates(name: string) {

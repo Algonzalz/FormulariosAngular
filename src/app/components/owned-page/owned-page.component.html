@@ -12,8 +12,7 @@
                 type="text"
                 placeholder="Nombre"
                 formControlName="firstName"
-                (keypress)="validatedUsername($event)"
-                [(ngModel)]="userModel.firstName">
+                (keypress)="validatedUsername($event)">
         <div *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
             <div  *ngIf="firstName.errors?.required" >El Nombre es requerido</div>
             <div  *ngIf="firstName.errors?.minlength" >Por lo menos 4 caracteres</div>
@@ -33,8 +32,7 @@
                 formControlName="lastName"
                 maxlength="50"
                 (keypress)="validatedFullName($event); 
-                            validatedLenght($event.target.value, 5)"
-                [(ngModel)]="userModel.lastName">
+                            validatedLenght($event.target.value, 5)">
           <div *ngIf="lastName.invalid && (lastName.touched || lastName.dirty)">
             <div *ngIf="lastName.errors?.required">El Apellido es requerido</div>
             <div *ngIf="lastName.errors?.pattern">El patron no coincide</div>
@@ -51,8 +49,7 @@
         <input class="form-control"
               type="email"
               placeholder="Correo electrónico"
-              formControlName="email"
-              [(ngModel)]="userModel.email">
+              formControlName="email">
     </div>
   </div>
 
@@ -63,8 +60,7 @@
                 type="password"
                 placeholder="Password"
                 formControlName="password"
-                (input)="checkConfirmPassword()"
-                [(ngModel)]="userModel.password">
+                (input)="checkConfirmPassword()">
     </div>
 </div>
 
@@ -74,8 +70,7 @@
         <input class="form-control"
                 type="password"
                 placeholder="Password"
-                formControlName="repeatPassword"
-                [(ngModel)]="userModel.repeatPassword">
+                formControlName="repeatPassword">
         <div *ngIf="repeatPassword.touched">
             <div  *ngIf="repeatPassword.errors?.required" >El Nombre es requerido</div>
             <div  *ngIf="repeatPassword.hasError('match')" >Deben coincidir as password</div>
@@ -84,27 +79,37 @@
 </div>
 
 <!-- SELECT DE EXERIMENTO -->
-<div class="form-group row">
-  <label class="col-2 col-form-label">Country</label>
-  <div class="col-md-8">
-      <select [(ngModel)]="userModel.country.idCountry" 
-              formControlName="country" 
-              (change)="loadStates2($event.target.value)">
-          <!-- <option value=null  selected>Country</option> -->
-          <option [value]="c.idCountry" *ngFor="let c of countrys">{{ c.nameCountry }} </option>
-      </select>
-  </div>
+<div formGroupName="country">
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Country</label>
+      <div class="col-md-8">
+            <select 
+                    formControlName="idCountry" 
+                    (change)="loadStates2($event.target.value)">
+                <!-- <option value=null  selected>Country</option> -->
+                <option [value]="c.idCountry" *ngFor="let c of countrys">{{ c.nameCountry }} </option>
+            </select>
+            <div *ngIf="country.touched">
+                <div  *ngIf="country.errors?.required" >El pais es requerido</div>
+            </div>
+      </div>
+    </div>
 </div>
 <!-- SELECT 2 A PARTIR DE EL OTRO -->
-<div class="form-group row">
-  <label class="col-2 col-form-label">States</label>
-  <div class="col-md-8">
-    <select [(ngModel)]="userModel.state.idState" 
-            formControlName="state">
-      <!-- <option value=null disabled selected hidden>State</option> -->
-      <option [value]="e.idState" *ngFor="let e of estadosCargados">{{e.nameState}}</option>
-    </select>
-  </div>
+<div formGroupName="state">
+    <div class="form-group row">
+      <label class="col-2 col-form-label">States</label>
+      <div class="col-md-8">
+        <select 
+                formControlName="idState">
+          <!-- <option value=null disabled selected hidden>State</option> -->
+          <option [value]="e.idState" *ngFor="let e of estadosCargados">{{e.nameState}}</option>
+        </select>
+        <div *ngIf="state.touched">
+            <div  *ngIf="state.errors?.required" >El estado es requerido</div>
+        </div>
+      </div>
+    </div>
 </div>
 <!-- FIN DE LOS SELECT -->
 <!-- SELECT 2 A PARTIR DE EL OTRO -->
@@ -174,6 +179,7 @@
 
   {{ownedForm.valid}}<br>
   {{ownedForm.status}}<br>
+  {{ownedForm.value | json}}<br>
   {{ userModel | json }}}}
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
